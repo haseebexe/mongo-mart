@@ -5,6 +5,8 @@ import cloudinary from "cloudinary";
 // Importing routes
 import userRouter from "./routes/user.js";
 import productRouter from "./routes/product.js"
+import cartRouter from "./routes/cart.js"
+import addressRouter from "./routes/address.js"
 
 dotenv.config();
 
@@ -22,6 +24,8 @@ app.use(express.json());
 // Using routes
 app.use("/api", userRouter);
 app.use("/api", productRouter);
+app.use("/api", cartRouter);
+app.use("/api", addressRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
