@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
             },
             product: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "product",
+                ref: "Product",
                 required: "true"
             }
         }
@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: "User",
         required: true,
     },
     phone: {
@@ -34,6 +34,10 @@ const orderSchema = new mongoose.Schema({
     address: {
         type: String,
         required: true,
+    },
+    status: {
+        type: String,
+        default: "Pending"
     },
     paidAt: {
         type: String,

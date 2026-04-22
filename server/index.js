@@ -4,9 +4,10 @@ import connectDb from "./utils/db.js";
 import cloudinary from "cloudinary";
 // Importing routes
 import userRouter from "./routes/user.js";
-import productRouter from "./routes/product.js"
-import cartRouter from "./routes/cart.js"
-import addressRouter from "./routes/address.js"
+import productRouter from "./routes/product.js";
+import cartRouter from "./routes/cart.js";
+import addressRouter from "./routes/address.js";
+import orderRouter from "./routes/order.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api", userRouter);
 app.use("/api", productRouter);
 app.use("/api", cartRouter);
 app.use("/api", addressRouter);
+app.use("/api", orderRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
