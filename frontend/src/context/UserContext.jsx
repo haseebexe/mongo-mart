@@ -1,15 +1,17 @@
 import { server } from "@/main";
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import { useContext } from "react";
+import Cookies from "js-cookie";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user] = useState([]);
-  const [loading] = useState(true);
+  const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [isAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
 
   async function loginUser(email, navigate) {
     if (!email?.trim()) {
@@ -20,21 +22,74 @@ export const UserProvider = ({ children }) => {
     setBtnLoading(true);
 
     try {
-      const response = await axios.post(`${server}/api/user/login`, {
+      const { data } = await axios.post(`${server}/api/user/login`, {
         email: email.trim(),
       });
 
-      toast.success(response.data.message);
+      toast.success(data.message);
       localStorage.setItem("email", email.trim());
-      // navigate("/verify");
+      navigate("/verify");
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || error.message || "Login failed",
-      );
+      const msg = error?.response?.data?.message || "Something went wrong";
+      toast.error(msg);
     } finally {
       setBtnLoading(false);
     }
   }
+
+  async function verifyUser(otp, navigate) {
+    if (!otp) {
+      toast.error("OTP is required");
+      return;
+    }
+
+    setBtnLoading(true);
+    const email = localStorage.getItem("email");
+
+    try {
+      const { data } = await axios.post(`${server}/api/user/verify`, {
+        email: email.trim(),
+        otp,
+      });
+
+      toast.success(data.message);
+      localStorage.clear();
+      setIsAuth(true);
+      setUser(data.user);
+      navigate("/");
+      Cookies.set("token", data.token, {
+        expires: 15,
+        secure: true,
+        sameSite: "strict",
+      });
+    } catch (error) {
+      const msg = error?.response?.data?.message || "Something went wrong";
+      toast.error(msg);
+    } finally {
+      setBtnLoading(false);
+    }
+  }
+
+  async function fetchUser() {
+    try {
+      const { data } = await axios.get(`${server}/api/user/me`, {
+        headers: {
+          token: Cookies.get("token"),
+        }
+      });
+      setUser(data.user);
+      setIsAuth(true);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+        setLoading(false);
+        setIsAuth(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <UserContext.Provider
@@ -44,6 +99,7 @@ export const UserProvider = ({ children }) => {
         btnLoading,
         isAuth,
         loginUser,
+        verifyUser,
       }}
     >
       {children}
@@ -52,4 +108,4 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-export const UserData = () => useContext(UserContext);
+export const useUserData = () => useContext(UserContext);
