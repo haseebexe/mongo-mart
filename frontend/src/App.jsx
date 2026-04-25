@@ -10,6 +10,7 @@ import Loading from "./components/Loading";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
 import SingleProduct from "./pages/SingleProduct";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const { isAuth, loading } = useUserData();
@@ -26,6 +27,7 @@ function App() {
             <Route path="/login" element={isAuth ? <Home/> : <Login />}></Route>
             <Route path="/verify" element={ isAuth ? <Home/> : <Verify />}></Route>
             <Route path="/cart" element={ isAuth ? <Cart/> : <Login/> }></Route>
+            <Route path="/checkout" element={ isAuth ? <Checkout/> : <Login/> }></Route>
             <Route path="*" element={ <NotFound/> }></Route>
             <Route path="/products" element={<Products />}></Route>
             <Route path="/product/:id" element={<SingleProduct/>}></Route>

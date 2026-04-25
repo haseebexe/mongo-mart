@@ -54,6 +54,9 @@ setTotalItems(data.sumOfQuantities);
   }
 
   async function updateCart(action, id) {
+
+    setLoading(true);
+
     try {
       const { data } = await axios.post(`${server}/api/cart/update?action=${action}`, { id }, {
         headers: {
@@ -65,6 +68,8 @@ setTotalItems(data.sumOfQuantities);
     } catch (error) {
       console.error("Error updating cart:", error);
       toast.error(error.response?.data?.message || "Failed to update cart");
+    } finally {
+      setLoading(false);
     }
   }
 
