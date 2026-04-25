@@ -20,7 +20,7 @@ const ProductCard = ({ product, latest }) => {
 
   return (
     product && (
-      <div className="w-[300px] mx-auto shadow-md rounded-lg overflow-hidden border border-gray-200">
+      <div className="w-full max-w-[300px] mx-auto shadow-md rounded-lg overflow-hidden border border-gray-200">
         <Link to={`/product/${product._id}`}>
           <div className="relative h-[300px] bg-gray-100 overflow-hidden group">
             <div

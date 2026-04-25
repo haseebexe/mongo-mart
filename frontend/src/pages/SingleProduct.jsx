@@ -78,14 +78,31 @@ const SingleProduct = () => {
 
           {relatedProducts?.length > 0 && (
             <div className="mt-12">
-              <h2 className="text-xl font-bold mb-4">Related Products</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-              
-                  {relatedProducts.map((i) => {
-                    return <ProductCard key={i._id} product={i} latest="no" />;
-                  }) }
-                
-              </div>
+              <h2 className="mb-4 text-xl font-bold">Related Products</h2>
+
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: false,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-4">
+                  {relatedProducts.map((item) => (
+                    <CarouselItem
+                      key={item._id}
+                      className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4"
+                    >
+                      <div className="h-full">
+                        <ProductCard product={item} latest="no" />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+
+                <CarouselPrevious className="left-2" />
+                <CarouselNext className="right-2" />
+              </Carousel>
             </div>
           )}
         </div>

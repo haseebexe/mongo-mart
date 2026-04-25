@@ -74,7 +74,7 @@ export const getAllProducts = TryCatch(async (req, res) => {
 
   const categories = await Product.distinct("category");
 
-  const newProduct = await Product.find().sort("-createdAt").limit(4);
+  const newProduct = await Product.find().sort("-createdAt").limit(10);
 
   const countProduct = await Product.countDocuments();
 
