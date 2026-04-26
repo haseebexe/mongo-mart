@@ -10,51 +10,67 @@ const sendOtp = async ({ email, subject, otp }) => {
     },
   });
 
-  const html = `<!DOCTYPE html>
-<html lang="en">
+const html = `
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Verification</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        h1 {
-            color: red;
-        }
-        p {
-            margin-bottom: 20px;
-            color: #666;
-        }
-        .otp {
-            font-size: 36px;
-            color: #7b68ee;
-            margin-bottom: 30px;
-        }
-    </style>
+<meta charset="UTF-8" />
+<title>OTP Verification</title>
 </head>
-<body>
-    <div class="container">
-        <h1>OTP Verification</h1>
-        <p>Hello ${email}, your One-Time Password for account verification is:</p>
-        <p class="otp">${otp}</p>
-    </div>
+
+<body style="margin:0; padding:0; background:#f4f6f8; font-family:Arial, sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:20px;">
+<tr>
+<td align="center">
+
+<table width="500" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:10px; overflow:hidden;">
+
+<!-- HEADER -->
+<tr>
+<td style="background:#111827; padding:20px; text-align:center;">
+  <h2 style="color:#ffffff; margin:0;">E-Store</h2>
+</td>
+</tr>
+
+<!-- BODY -->
+<tr>
+<td style="padding:30px; text-align:center;">
+  <h2 style="margin-bottom:10px;">Verify Your Account</h2>
+  <p style="color:#555;">Hi ${email}, use the code below:</p>
+
+  <div style="
+    font-size:32px;
+    letter-spacing:8px;
+    font-weight:bold;
+    color:#2563eb;
+    margin:20px 0;
+  ">
+    ${otp}
+  </div>
+
+  <p style="color:#777; font-size:14px;">
+    This OTP is valid for a few minutes. Do not share it with anyone.
+  </p>
+</td>
+</tr>
+
+<!-- FOOTER -->
+<tr>
+<td style="background:#f9fafb; padding:15px; text-align:center; font-size:12px; color:#777;">
+  Secure verification system 🔐
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
 </body>
-</html>`;
+</html>
+`;
 
   await transport.sendMail({
     from: process.env.Gmail,

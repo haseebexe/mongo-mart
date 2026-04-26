@@ -63,43 +63,75 @@ const OrderProcessing = () => {
     }
   }, [sessionId, paymentVerified, navigate]);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-blue-500">
+ return (
+  <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center px-4">
+    <div className="w-full max-w-lg">
+
       {loading ? (
-        <>
-          <div className="bg-white p-8 rounded-lg shadow-lg text-clip max-w-lg">
-            <h1 className="text-4xl font-extrabold text-blue-600 mb-4">
-              Processing Order
-            </h1>
-            <p className="text-lg text-gray-700 mb-6">
-              Please wait while we process your payment and order
-            </p>
-            <Loader />
-            <div className="text-xl text-gray-500">Processing...</div>
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 text-center space-y-6">
+
+          {/* Animated Loader */}
+          <div className="flex justify-center">
+            <Loader className="w-12 h-12 animate-spin text-blue-600" />
           </div>
-        </>
+
+          <h1 className="text-2xl font-semibold">
+            Processing your payment...
+          </h1>
+
+          <p className="text-gray-500 text-sm">
+            Please wait while we confirm your order. Do not refresh or close this page.
+          </p>
+
+          {/* Fake progress bar */}
+          <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+            <div className="h-full bg-blue-600 animate-pulse w-3/4"></div>
+          </div>
+
+        </div>
       ) : (
-        <>
-          <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-6 text-center">
-            <div>
-              <h1 className="text-4xl font-bold text-green-500 mb-4">
-                Order Placed
-              </h1>
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 text-center space-y-6">
 
-              <p className="text-gray-600 text-lg mb-6">
-                Thank you for shopping with us. Your order will be delivered
-                soon
-              </p>
-
-              <Button onClick={() => navigate("/orders")}>
-                Go to order page
-              </Button>
+          {/* Success Icon */}
+          <div className="flex justify-center">
+            <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
+              <svg
+                className="w-10 h-10 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
             </div>
           </div>
-        </>
+
+          <h1 className="text-2xl font-bold text-green-600">
+            Order Confirmed 🎉
+          </h1>
+
+          <p className="text-gray-600 dark:text-gray-400">
+            Your payment has been successfully processed.
+          </p>
+
+          <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 text-sm text-gray-600 dark:text-gray-300">
+            You will be redirected to your orders page shortly.
+          </div>
+
+          <Button
+            className="w-full py-3 text-lg h-auto"
+            onClick={() => navigate("/orders")}
+          >
+            View My Orders
+          </Button>
+
+        </div>
       )}
+
     </div>
-  );
+  </div>
+);
 };
 
 export default OrderProcessing;

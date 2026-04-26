@@ -22,78 +22,104 @@ const sendOrderConfirmation = async ({ email, subject, orderId, products, totalA
     )
     .join("");
 
-  const html = `<!DOCTYPE html>
-<html lang="en">
+const html = `
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f9f9f9;
-            height: 100vh;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        h1 {
-            color: #4caf50;
-        }
-        p {
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .total {
-            font-size: 18px;
-            font-weight: bold;
-            color: #000;
-        }
-    </style>
+<meta charset="UTF-8" />
+<title>Order Confirmation</title>
 </head>
-<body>
-    <div class="container">
-        <h1>Order Confirmation</h1>
-        <p>Dear ${email},</p>
-        <p>Your order (ID: <strong>${orderId}</strong>) has been successfully placed.</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${productsHtml}
-            </tbody>
-        </table>
-        <p class="total">Total Amount: Rs ${totalAmount}</p>
-        <p>Thank you for shopping with us!</p>
-    </div>
+
+<body style="margin:0; padding:0; background:#f4f6f8; font-family:Arial, sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:20px;">
+<tr>
+<td align="center">
+
+<table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:10px; overflow:hidden;">
+
+<!-- HEADER -->
+<tr>
+<td style="background:#111827; padding:20px; text-align:center;">
+  <h1 style="color:#ffffff; margin:0;">E-Store</h1>
+</td>
+</tr>
+
+<!-- SUCCESS -->
+<tr>
+<td style="padding:30px; text-align:center;">
+  <h2 style="color:#16a34a; margin-bottom:10px;">Order Confirmed 🎉</h2>
+  <p style="color:#555;">Hi ${email}, your order has been placed successfully.</p>
+  <p style="color:#333;">Order ID: <strong>${orderId}</strong></p>
+</td>
+</tr>
+
+<!-- PRODUCTS TABLE -->
+<tr>
+<td style="padding:0 30px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+    <thead>
+      <tr style="background:#f3f4f6;">
+        <th style="padding:12px; text-align:left;">Product</th>
+        <th style="padding:12px;">Qty</th>
+        <th style="padding:12px;">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${productsHtml}
+    </tbody>
+  </table>
+</td>
+</tr>
+
+<!-- TOTAL -->
+<tr>
+<td style="padding:20px 30px;">
+  <table width="100%">
+    <tr>
+      <td style="font-size:18px; font-weight:bold;">Total</td>
+      <td align="right" style="font-size:18px; font-weight:bold;">
+        Rs ${totalAmount.toLocaleString()}
+      </td>
+    </tr>
+  </table>
+</td>
+</tr>
+
+<!-- CTA 
+<tr>
+<td style="padding:20px 30px; text-align:center;">
+  <a href="#" style="
+    display:inline-block;
+    padding:12px 25px;
+    background:#2563eb;
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    font-weight:bold;
+  ">
+    View Your Order
+  </a>
+</td>
+</tr>
+-->
+
+<!-- FOOTER -->
+<tr>
+<td style="background:#f9fafb; padding:20px; text-align:center; font-size:12px; color:#777;">
+  Thank you for shopping with us ❤️
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
 </body>
-</html>`;
+</html>
+`;
 
   await transport.sendMail({
     from: process.env.Gmail,

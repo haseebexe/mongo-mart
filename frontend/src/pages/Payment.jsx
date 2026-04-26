@@ -53,7 +53,7 @@ const Payment = () => {
       } catch (error) {
         toast.error(error.response?.data?.message || "Payment failed");
       } finally {
-        setPaying(false);
+        setLoading(false);
       }
     }
 
@@ -94,100 +94,117 @@ const Payment = () => {
     }
   };
   return (
-    <div>
-      {loading ? (
-        <Loading />
-      ) : (
-        <div className="container mx-auto px-4 py-8">
-          <div className="space-y-8">
-            <h2 className="text-3xl font-bold text-center">
-              Proceed to Payment
-            </h2>
+  
+    <div className="min-h-screen bg-gray-50 dark:bg-black py-10">
+  <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-4">
 
-            <div>
-              <h3 className="text-xl font-semibold">Products</h3>
-              <Separator className="my-2" />
+    {/* LEFT SIDE - PRODUCTS */}
+    <div className="md:col-span-2 space-y-6">
 
-              <div className="space-y-4">
-                {cart &&
-                  cart.map((e, i) => (
-                    <div
-                      key={i}
-                      className="flex flex-col md:flex-row items-center justify-between bg-card  p-4 rounded-lg shadow border dark:border-gray-700"
-                    >
-                      <img
-                        src={e.product.images[0].url}
-                        alt="xyz"
-                        className="w-16 h-16 object-cover rounded mb-4 md:mb-0"
-                      />
+      <h2 className="text-2xl font-semibold">Checkout</h2>
 
-                      <div className="flex-1 md:ml-4 text-center md:text-left">
-                        <h2 className="text-lg font-medium">
-                          {e.product.title}
-                        </h2>
+      {/* PRODUCTS */}
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow p-5 space-y-4">
+        <h3 className="font-semibold text-lg">Your Items</h3>
 
-                        <p className="text-sm text-muted-foreground dark:text-gray-400">
-                          Rs {e.product.price} X {e.quantity}
-                        </p>
-                        <p className="text-sm text-muted-foreground dark:text-gray-400">
-                          Rs {e.product.price * e.quantity}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-              </div>
+        {cart?.map((e, i) => (
+          <div key={i} className="flex gap-4 border-b pb-4 last:border-none">
+            <img
+              src={e.product.images[0].url}
+              className="w-20 h-20 object-cover rounded-lg"
+            />
+
+            <div className="flex-1">
+              <h4 className="font-medium">{e.product.title}</h4>
+              <p className="text-sm text-gray-500">
+                Rs {e.product.price} × {e.quantity}
+              </p>
             </div>
 
-            <div className="text-lg font-medium text-center">
-              Total Price to be Paid: Rs {subTotal}
+            <div className="font-semibold">
+              Rs {(e.product.price * e.quantity).toLocaleString()}
             </div>
-
-            {selectedAddress && (
-              <div className="bg-card p-4 rounded-lg shadow border space-y-4 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-center">Details</h3>
-                <Separator className="my-2" />
-
-                <div className="flex flex-col  space-y-4 ">
-                  <div>
-                    <h4 className="font-semibold mb-1">Delivery Address</h4>
-                    <p className="text-sm text-muted-foreground dark:text-gray-400">
-                      <strong>Address:</strong> {selectedAddress.address}
-                    </p>
-                    <p className="text-sm text-muted-foreground dark:text-gray-400">
-                      <strong>Phone:</strong> {selectedAddress.phone}
-                    </p>
-                  </div>
-
-                  <div className="w-full md:w-1/2">
-                    <h4 className="font-semibold mb-1">
-                      Select Payment Method
-                    </h4>
-
-                    <select
-                      value={method}
-                      onChange={(e) => setMethod(e.target.value)}
-                      className="w-full p-2 border rounded-lg bg-card dark:bg-gray-900 dark:text-white"
-                    >
-                      <option value="">Select Payment Method</option>
-                      <option value="cod">Cash on Delivery</option>
-                      <option value="online">Card Payment</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <Button
-              className="w-full py-3 mt-4"
-              onClick={paymentHandler}
-              disabled={!method || !selectedAddress}
-            >
-              Procced To Checkout
-            </Button>
           </div>
+        ))}
+      </div>
+
+      {/* ADDRESS */}
+      {selectedAddress && (
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow p-5">
+          <h3 className="font-semibold text-lg mb-3">Delivery Address</h3>
+
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            {selectedAddress.address}
+          </p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            {selectedAddress.phone}
+          </p>
         </div>
       )}
+
+      {/* PAYMENT METHOD */}
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow p-5 space-y-4">
+        <h3 className="font-semibold text-lg">Payment Method</h3>
+
+        <div className="space-y-3">
+
+          <label className="flex items-center gap-3 border p-3 rounded-lg cursor-pointer hover:border-black">
+            <input
+              type="radio"
+              value="cod"
+              checked={method === "cod"}
+              onChange={(e) => setMethod(e.target.value)}
+            />
+            <span>Cash on Delivery</span>
+          </label>
+
+          <label className="flex items-center gap-3 border p-3 rounded-lg cursor-pointer hover:border-black">
+            <input
+              type="radio"
+              value="online"
+              checked={method === "online"}
+              onChange={(e) => setMethod(e.target.value)}
+            />
+            <span>Credit / Debit Card</span>
+          </label>
+
+        </div>
+      </div>
+
     </div>
+
+    {/* RIGHT SIDE - SUMMARY */}
+    <div className="bg-white dark:bg-gray-900 rounded-xl shadow p-5 h-fit sticky top-20">
+      <h3 className="font-semibold text-lg mb-4">Order Summary</h3>
+
+      <div className="space-y-2 text-sm">
+        <div className="flex justify-between">
+          <span>Subtotal</span>
+          <span>Rs {subTotal.toLocaleString()}</span>
+        </div>
+
+        <div className="flex justify-between">
+          <span>Delivery</span>
+          <span className="text-green-600">Free</span>
+        </div>
+
+        <div className="border-t pt-3 flex justify-between font-semibold text-lg">
+          <span>Total</span>
+          <span>Rs {subTotal.toLocaleString()}</span>
+        </div>
+      </div>
+
+      <Button
+        className="w-full mt-6 py-2 h-auto text-[14px]"
+        onClick={paymentHandler}
+        disabled={!method || !selectedAddress}
+      >
+        {loading ? "Processing..." : "Place Order"}
+      </Button>
+    </div>
+
+  </div>
+</div>
   );
 };
 
