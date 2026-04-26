@@ -6,6 +6,7 @@ import { ThemeProvider } from "./components/theme-provider";
 import { UserProvider } from "./context/UserContext";
 import { ProductProvider } from "./context/ProductContext";
 import { CartProvider } from "./context/CartContext";
+import { AddressProvider } from "./context/AddressContext";
 
 export const server = "http://localhost:5000";
 
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")).render(
       <UserProvider>
         <ProductProvider>
           <CartProvider>
-            <App />
+            <AddressProvider>
+              <App />
+            </AddressProvider>
           </CartProvider>
         </ProductProvider>
       </UserProvider>

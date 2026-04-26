@@ -65,7 +65,6 @@ const Navbar = () => {
             Products
           </li>
 
-          {/* CART */}
           <li
             className="relative cursor-pointer"
             onClick={() => navigate("/cart")}

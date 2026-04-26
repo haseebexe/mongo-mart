@@ -1,19 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/context/CartContext";
-import {
-  ArrowRight,
-  ShoppingCart,
-  Trash2,
-  Minus,
-  Plus,
-} from "lucide-react";
+import { ArrowRight, ShoppingCart, Trash2, Minus, Plus } from "lucide-react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cart, subTotal, updateCart, deleteCart, totalItems } =
-    useCart();
+  const { cart, subTotal, updateCart, deleteCart, totalItems } = useCart();
   const navigate = useNavigate();
 
   const updateCartHandler = async (action, id) => {
@@ -130,9 +123,7 @@ const Cart = () => {
                               variant="ghost"
                               size="icon"
                               className="h-10 w-10 rounded-none rounded-l-xl cursor-pointer"
-                              onClick={() =>
-                                updateCartHandler("dec", item._id)
-                              }
+                              onClick={() => updateCartHandler("dec", item._id)}
                             >
                               <Minus className="h-4 w-4 cursor-pointer" />
                             </Button>
@@ -145,9 +136,7 @@ const Cart = () => {
                               variant="ghost"
                               size="icon"
                               className="h-10 w-10 rounded-none rounded-r-xl cursor-pointer"
-                              onClick={() =>
-                                updateCartHandler("inc", item._id)
-                              }
+                              onClick={() => updateCartHandler("inc", item._id)}
                             >
                               <Plus className="h-4 w-4 " />
                             </Button>
