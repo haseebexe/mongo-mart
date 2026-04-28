@@ -23,7 +23,7 @@ const Home = () => {
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         
-        {/* HEADER */}
+     
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
@@ -39,7 +39,7 @@ const Home = () => {
           </Button>
         </div>
 
-        {/* CAROUSEL */}
+     
         {newProd?.length > 0 ? (
           <Carousel
             opts={{

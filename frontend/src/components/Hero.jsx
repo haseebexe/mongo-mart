@@ -28,7 +28,7 @@ const Hero = ({ navigate }) => {
         </div>
 
         {/* SIDE CARDS */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-row lg:flex-col gap-4">
 
           <div
             onClick={() => navigate("/products")}
